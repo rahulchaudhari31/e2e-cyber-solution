@@ -1,0 +1,344 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--section-y);
+  background: var(--yellow);
+  color: var(--navy);
+}
+
+.rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.rings span {
+  position: absolute;
+  width: min(540px, 48vw);
+  aspect-ratio: 1;
+  border: 1px dashed rgba(11, 27, 58, 0.13);
+  border-radius: 50%;
+}
+
+.rings span:first-child {
+  top: 8%;
+  left: -20%;
+}
+
+.rings span:last-child {
+  right: -18%;
+  bottom: 2%;
+}
+
+.head {
+  position: relative;
+  z-index: 1;
+  margin-bottom: clamp(38px, 5vw, 66px);
+}
+
+.bridge {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(18px, 3vw, 42px);
+  max-width: 1100px;
+  margin-inline: auto;
+}
+
+.side {
+  position: relative;
+  display: flex;
+  width: min(31vw, 330px);
+  flex: 0 0 auto;
+  justify-content: center;
+}
+
+.circle {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 330px;
+  aspect-ratio: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: clamp(28px, 3.3vw, 44px);
+  border-radius: 50%;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.circle::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px dashed rgba(255, 248, 231, 0.26);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.circle::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  top: 18%;
+  right: 18%;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 0 5px rgba(255, 201, 60, 0.22);
+}
+
+.businessCircle {
+  background:
+    radial-gradient(circle at 24% 20%, rgba(47, 107, 255, 0.3), transparent 36%),
+    var(--navy);
+  color: var(--cream);
+}
+
+.audienceCircle {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255, 201, 60, 0.32), transparent 36%),
+    var(--blue);
+  color: var(--white);
+}
+
+.circleIndex {
+  font-size: 8px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
+.circle h3 {
+  font-size: clamp(27px, 2.75vw, 40px);
+  font-weight: var(--weight-semibold);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.circle p {
+  max-width: 225px;
+  font-size: clamp(11px, 0.9vw, 13px);
+  line-height: 1.62;
+  opacity: 0.74;
+}
+
+.labels {
+  display: contents;
+}
+
+.label {
+  position: absolute;
+  z-index: 3;
+}
+
+.labelInner {
+  display: inline-flex;
+  padding: 9px 13px;
+  border: 1px solid rgba(11, 27, 58, 0.15);
+  border-radius: var(--radius-pill);
+  background: var(--cream-2);
+  color: var(--ink-2);
+  font-size: 8px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.labelB0 {
+  top: 4%;
+  left: -17%;
+}
+
+.labelB1 {
+  top: 29%;
+  right: -16%;
+}
+
+.labelB2 {
+  bottom: 22%;
+  left: -13%;
+}
+
+.labelB3 {
+  right: 1%;
+  bottom: 3%;
+}
+
+.labelA0 {
+  top: 5%;
+  left: -13%;
+}
+
+.labelA1 {
+  top: 27%;
+  right: -14%;
+}
+
+.labelA2 {
+  bottom: 21%;
+  left: -10%;
+}
+
+.labelA3 {
+  right: 0;
+  bottom: 2%;
+}
+
+.linkWrap {
+  position: relative;
+  display: flex;
+  min-width: 130px;
+  height: 120px;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.linkSvg {
+  width: 100%;
+  height: 64px;
+  overflow: visible;
+}
+
+.linkPath {
+  fill: none;
+  stroke: rgba(11, 27, 58, 0.54);
+  stroke-linecap: round;
+  stroke-width: 2.5;
+}
+
+.ampOuter {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--navy);
+  border-radius: 50%;
+  background: var(--cream);
+  box-shadow: var(--shadow-md);
+}
+
+.amp {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 29px;
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  color: var(--navy);
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 56px);
+  max-width: 1100px;
+  margin: clamp(42px, 6vw, 74px) auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(11, 27, 58, 0.2);
+}
+
+.foot p {
+  max-width: 680px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(11, 27, 58, 0.7);
+}
+
+@media (max-width: 1100px) {
+  .circle h3 {
+    font-size: clamp(24px, 3.1vw, 34px);
+  }
+
+  .labelInner {
+    padding: 8px 10px;
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 900px) {
+  .bridge {
+    flex-direction: column;
+    gap: 38px;
+  }
+
+  .side {
+    width: min(78vw, 330px);
+  }
+
+  .linkWrap {
+    width: 100%;
+    height: 108px;
+    flex: none;
+  }
+
+  .linkSvg {
+    width: 108px;
+    height: 108px;
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .side {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: min(100%, 340px);
+  }
+
+  .labels {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 7px;
+  }
+
+  .label {
+    position: static;
+  }
+
+  .labelInner {
+    font-size: 8px;
+    padding: 7px 10px;
+  }
+
+  .foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .foot p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 420px) {
+  .circle {
+    gap: 10px;
+    padding: 30px;
+  }
+
+  .circle p {
+    font-size: 11px;
+  }
+
+  .ampOuter {
+    width: 56px;
+    height: 56px;
+  }
+
+  .amp {
+    font-size: 25px;
+  }
+}

@@ -1,0 +1,213 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: fit-content;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
+  line-height: 1;
+  padding: 15px 22px;
+  white-space: nowrap;
+  transform: translate3d(var(--magnet-x, 0), var(--magnet-y, 0), 0)
+    scale(var(--magnet-scale, 1));
+  will-change: transform;
+  transition:
+    transform 0.32s var(--ease-out),
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.button:active {
+  --magnet-scale: 0.97;
+}
+
+.label {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding-top: 2px;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.22;
+  pointer-events: none;
+  transform: scale(0);
+  animation: ripple 0.65s var(--ease-out) forwards;
+}
+
+@keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.iconWrap {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  flex: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  transition: transform var(--dur) var(--ease-spring);
+}
+
+.button:hover .iconWrap {
+  transform: rotate(45deg) scale(1.05);
+}
+
+/* Variants */
+.primary {
+  background: var(--blue-deep);
+  color: var(--white);
+  box-shadow: var(--shadow-blue);
+}
+
+.primary:hover {
+  background: var(--navy);
+  box-shadow: var(--shadow-md);
+}
+
+.accent {
+  background: var(--yellow);
+  color: var(--navy);
+  box-shadow: var(--shadow-yellow);
+}
+
+.accent:hover {
+  background: var(--white);
+}
+
+.accent .iconWrap {
+  background: rgba(11, 27, 58, 0.1);
+}
+
+.dark {
+  background: var(--navy);
+  color: var(--cream);
+}
+
+.dark:hover {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.light {
+  background: var(--cream);
+  color: var(--navy);
+}
+
+.light:hover {
+  background: var(--yellow);
+}
+
+.light .iconWrap {
+  background: rgba(11, 27, 58, 0.08);
+}
+
+.teal {
+  background: var(--meadow);
+  color: var(--white);
+}
+
+.teal:hover {
+  background: var(--navy);
+}
+
+.outline {
+  border-color: var(--line-strong);
+  background: transparent;
+  color: var(--ink);
+}
+
+.outline:hover {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--cream);
+}
+
+.outline .iconWrap,
+.ghost .iconWrap {
+  background: rgba(11, 27, 58, 0.08);
+}
+
+.outline:hover .iconWrap {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.outline-light {
+  border-color: rgba(255, 248, 231, 0.32);
+  background: transparent;
+  color: var(--on-dark);
+}
+
+.outline-light .iconWrap {
+  background: rgba(255, 248, 231, 0.12);
+}
+
+.outline-light:hover {
+  background: var(--cream);
+  border-color: var(--cream);
+  color: var(--navy);
+}
+
+.ghost {
+  padding-inline: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.ghost:hover {
+  color: var(--blue);
+}
+
+/* Sizes */
+.sm {
+  gap: 9px;
+  padding: 11px 17px;
+  font-size: var(--text-xs);
+}
+
+.sm .iconWrap {
+  width: 21px;
+  height: 21px;
+}
+
+.lg {
+  gap: 14px;
+  padding: 19px 28px;
+  font-size: var(--text-base);
+}
+
+.lg .iconWrap {
+  width: 28px;
+  height: 28px;
+}
+
+@media (max-width: 480px) {
+  .button {
+    padding: 13px 18px;
+    font-size: var(--text-xs);
+  }
+
+  .lg {
+    padding: 15px 22px;
+  }
+}

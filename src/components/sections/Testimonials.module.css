@@ -1,0 +1,76 @@
+.section {
+  position: relative;
+  background: var(--bg);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  align-items: center;
+  gap: clamp(36px, 6vw, 90px);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 380px;
+}
+
+.noteLine {
+  width: 36px;
+  height: 1px;
+  margin-top: 12px;
+  flex: none;
+  background: var(--line-strong);
+}
+
+.note p {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.right {
+  min-width: 0;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(10px, 1.5vw, 18px);
+  border-radius: calc(var(--radius-lg) + 10px);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(0, 190, 163, 0.18), transparent 46%),
+    radial-gradient(circle at 0% 100%, rgba(3, 115, 187, 0.22), transparent 48%),
+    var(--dark);
+  box-shadow: var(--shadow-lg);
+}
+
+.orb {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  right: -100px;
+  bottom: -120px;
+  border-radius: 50%;
+  background: rgba(241, 137, 76, 0.16);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .left {
+    gap: 24px;
+  }
+}

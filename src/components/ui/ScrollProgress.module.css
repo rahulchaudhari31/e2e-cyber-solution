@@ -1,0 +1,9 @@
+.bar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-progress);
+  height: 3px;
+  transform-origin: 0% 50%;
+  background: linear-gradient(90deg, var(--yellow) 0%, var(--blue) 55%, var(--meadow) 100%);
+  pointer-events: none;
+}

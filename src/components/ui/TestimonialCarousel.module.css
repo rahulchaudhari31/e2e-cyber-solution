@@ -1,0 +1,152 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: clamp(26px, 4vw, 48px);
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(6px);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quoteIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: var(--ink);
+}
+
+.counter {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--on-dark-muted);
+}
+
+.slash {
+  color: rgba(244, 242, 237, 0.3);
+}
+
+.stage {
+  min-height: 190px;
+  display: flex;
+  align-items: center;
+}
+
+.quote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(23px, 2.5vw, 34px);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.03em;
+  color: var(--on-dark);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line-dark);
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 8px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line-dark);
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--on-dark);
+}
+
+.role {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line-dark);
+  border-radius: 50%;
+  color: var(--on-dark);
+  transition:
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.control:hover {
+  background: var(--cream);
+  border-color: var(--cream);
+  color: var(--ink);
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 28px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: rgba(244, 242, 237, 0.2);
+  transition:
+    background-color var(--dur) var(--ease),
+    width var(--dur) var(--ease);
+}
+
+.dotActive {
+  width: 48px;
+  background: var(--teal);
+}
+
+@media (max-width: 560px) {
+  .stage {
+    min-height: 250px;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .controls {
+    align-self: flex-end;
+  }
+}

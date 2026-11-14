@@ -1,0 +1,78 @@
+.blobs {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blobs span {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.42;
+  will-change: transform;
+}
+
+.blue {
+  width: min(520px, 48vw);
+  aspect-ratio: 1;
+  top: -20%;
+  right: -8%;
+  background: var(--blue);
+  animation: driftBlue 16s ease-in-out infinite alternate;
+}
+
+.yellow {
+  width: min(330px, 30vw);
+  aspect-ratio: 1;
+  right: 18%;
+  bottom: -30%;
+  background: var(--yellow);
+  opacity: 0.2;
+  animation: driftYellow 20s ease-in-out infinite alternate;
+}
+
+.teal {
+  width: min(380px, 34vw);
+  aspect-ratio: 1;
+  top: 26%;
+  left: -14%;
+  background: var(--meadow);
+  opacity: 0.24;
+  animation: driftTeal 18s ease-in-out infinite alternate;
+}
+
+@keyframes driftBlue {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-8%, 12%, 0) scale(1.16);
+  }
+}
+
+@keyframes driftYellow {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.08);
+  }
+  to {
+    transform: translate3d(-14%, -10%, 0) scale(0.92);
+  }
+}
+
+@keyframes driftTeal {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  to {
+    transform: translate3d(12%, -8%, 0) scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blobs span {
+    animation: none;
+  }
+}
