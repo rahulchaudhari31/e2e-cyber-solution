@@ -1,7 +1,7 @@
 .page {
   position: relative;
   min-width: 0;
-  will-change: opacity, transform;
+  will-change: opacity;
 }
 
 .page::after {
