@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { assets } from "../../data/content";
+import { markPageReady } from "../../hooks/usePageReady";
 import styles from "./Preloader.module.css";
 
 export default function Preloader() {
@@ -8,10 +9,16 @@ export default function Preloader() {
   const [phase, setPhase] = useState("visible");
 
   useEffect(() => {
-    if (reduced) return undefined;
+    if (reduced) {
+      markPageReady();
+      return undefined;
+    }
 
-    const exit = window.setTimeout(() => setPhase("exiting"), 1050);
-    const done = window.setTimeout(() => setPhase("done"), 1650);
+    const exit = window.setTimeout(() => {
+      markPageReady();
+      setPhase("exiting");
+    }, 760);
+    const done = window.setTimeout(() => setPhase("done"), 1180);
 
     return () => {
       window.clearTimeout(exit);

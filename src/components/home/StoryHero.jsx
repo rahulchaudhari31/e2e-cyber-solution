@@ -3,6 +3,7 @@ import {
   motion,
   useMotionValue,
   useReducedMotion,
+  useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
@@ -14,6 +15,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { home } from "../../data/content";
+import { usePageReady } from "../../hooks/usePageReady";
 import Button from "../ui/Button";
 import Container from "../ui/Container";
 import styles from "./StoryHero.module.css";
@@ -42,24 +44,33 @@ const wordReveal = {
   },
 };
 
+const fadeUp = (delay = 0) => ({
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, delay, ease },
+  },
+});
+
 function FloatShape({
   children,
   className = "",
   delay = 0,
   duration = 4.2,
   reduced,
+  show,
   style,
 }) {
+  const hidden = { opacity: 0, y: -90, scale: 0.72, rotate: -8 };
+  const visible = { opacity: 1, y: 0, scale: 1, rotate: 0 };
+
   return (
     <motion.div
       className={`${styles.shape} ${className}`}
       style={style}
-      initial={reduced ? false : { opacity: 0, y: -90, scale: 0.72, rotate: -8 }}
-      animate={
-        reduced
-          ? { opacity: 1 }
-          : { opacity: 1, y: 0, scale: 1, rotate: 0 }
-      }
+      initial={reduced ? false : hidden}
+      animate={show ? (reduced ? { opacity: 1 } : visible) : undefined}
       transition={{
         type: "spring",
         stiffness: 150,
@@ -86,6 +97,16 @@ function FloatShape({
 export default function StoryHero() {
   const heroRef = useRef(null);
   const reduced = useReducedMotion();
+  const ready = usePageReady();
+  const show = ready || reduced;
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, -28]);
+  const visualY = useTransform(scrollYProgress, [0, 1], [0, -72]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const glowOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.3]);
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
   const smoothX = useSpring(pointerX, { stiffness: 90, damping: 18, mass: 0.4 });
@@ -116,15 +137,22 @@ export default function StoryHero() {
       onPointerLeave={handlePointerLeave}
     >
       <div className={styles.grid} aria-hidden="true" />
-      <div className={styles.glow} aria-hidden="true" />
+      <motion.div
+        className={styles.glow}
+        aria-hidden="true"
+        style={reduced ? undefined : { y: glowY, opacity: glowOpacity }}
+      />
 
       <Container className={styles.inner}>
-        <div className={styles.copy}>
+        <motion.div
+          className={styles.copy}
+          style={reduced ? undefined : { y: copyY }}
+        >
           <motion.span
             className={styles.eyebrow}
-            initial={reduced ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
+            variants={fadeUp(0)}
+            initial={reduced ? false : "hidden"}
+            animate={show ? "show" : "hidden"}
           >
             <Sparkles size={14} strokeWidth={1.8} />
             {home.hero.eyebrow}
@@ -135,7 +163,7 @@ export default function StoryHero() {
               className={styles.titleInner}
               variants={wordContainer}
               initial={reduced ? false : "hidden"}
-              animate="show"
+              animate={show ? "show" : "hidden"}
             >
               {words.map((word, index) => (
                 <span
@@ -159,18 +187,18 @@ export default function StoryHero() {
 
           <motion.p
             className={styles.support}
-            initial={reduced ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.72, ease }}
+            variants={fadeUp(0.72)}
+            initial={reduced ? false : "hidden"}
+            animate={show ? "show" : "hidden"}
           >
             {home.hero.support}
           </motion.p>
 
           <motion.div
             className={styles.actions}
-            initial={reduced ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.86, ease }}
+            variants={fadeUp(0.86)}
+            initial={reduced ? false : "hidden"}
+            animate={show ? "show" : "hidden"}
           >
             <Button to="/contact" size="lg">
               {home.hero.primaryCta}
@@ -182,18 +210,21 @@ export default function StoryHero() {
 
           <motion.ul
             className={styles.badges}
-            initial={reduced ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.98, ease }}
+            variants={fadeUp(0.98)}
+            initial={reduced ? false : "hidden"}
+            animate={show ? "show" : "hidden"}
             aria-label="What we do"
           >
             {home.hero.badges.map((badge) => (
               <li key={badge}>{badge}</li>
             ))}
           </motion.ul>
-        </div>
+        </motion.div>
 
-        <div className={styles.visual}>
+        <motion.div
+          className={styles.visual}
+          style={reduced ? undefined : { y: visualY }}
+        >
           <motion.div
             className={styles.bridgeStage}
             style={reduced ? undefined : { x: bridgeX, y: bridgeY }}
@@ -222,7 +253,7 @@ export default function StoryHero() {
                 r="54"
                 fill="var(--yellow)"
                 initial={reduced ? false : { scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+                animate={show ? { scale: 1, opacity: 1 } : undefined}
                 transition={{ type: "spring", stiffness: 120, damping: 14, delay: 0.4 }}
                 style={{ transformOrigin: "472px 116px" }}
               />
@@ -235,7 +266,7 @@ export default function StoryHero() {
                 strokeOpacity="0.16"
                 strokeDasharray="4 10"
                 initial={reduced ? false : { opacity: 0, rotate: -16 }}
-                animate={{ opacity: 1, rotate: 0 }}
+                animate={show ? { opacity: 1, rotate: 0 } : undefined}
                 transition={{ duration: 1, delay: 0.55, ease }}
                 style={{ transformOrigin: "472px 116px" }}
               />
@@ -248,7 +279,7 @@ export default function StoryHero() {
                 strokeLinecap="round"
                 strokeOpacity="0.5"
                 initial={reduced ? false : { pathLength: 0 }}
-                animate={{ pathLength: 1 }}
+                animate={show ? { pathLength: 1 } : undefined}
                 transition={{ duration: 1.2, delay: 0.45, ease }}
               />
               <motion.path
@@ -258,7 +289,7 @@ export default function StoryHero() {
                 strokeWidth="16"
                 strokeLinecap="round"
                 initial={reduced ? false : { pathLength: 0 }}
-                animate={{ pathLength: 1 }}
+                animate={show ? { pathLength: 1 } : undefined}
                 transition={{ duration: 1.35, delay: 0.5, ease }}
               />
               <motion.path
@@ -268,7 +299,7 @@ export default function StoryHero() {
                 strokeWidth="14"
                 strokeLinecap="round"
                 initial={reduced ? false : { pathLength: 0 }}
-                animate={{ pathLength: 1 }}
+                animate={show ? { pathLength: 1 } : undefined}
                 transition={{ duration: 1.15, delay: 0.65, ease }}
               />
 
@@ -288,7 +319,7 @@ export default function StoryHero() {
                   strokeWidth="3"
                   strokeLinecap="round"
                   initial={reduced ? false : { pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
+                  animate={show ? { pathLength: 1 } : undefined}
                   transition={{ duration: 0.45, delay: 1 + index * 0.08, ease }}
                 />
               ))}
@@ -301,7 +332,7 @@ export default function StoryHero() {
                 rx="10"
                 fill="var(--navy)"
                 initial={reduced ? false : { scaleY: 0, opacity: 0 }}
-                animate={{ scaleY: 1, opacity: 1 }}
+                animate={show ? { scaleY: 1, opacity: 1 } : undefined}
                 transition={{ type: "spring", stiffness: 110, damping: 15, delay: 0.75 }}
                 style={{ transformOrigin: "110px 434px" }}
               />
@@ -313,7 +344,7 @@ export default function StoryHero() {
                 rx="10"
                 fill="var(--navy)"
                 initial={reduced ? false : { scaleY: 0, opacity: 0 }}
-                animate={{ scaleY: 1, opacity: 1 }}
+                animate={show ? { scaleY: 1, opacity: 1 } : undefined}
                 transition={{ type: "spring", stiffness: 110, damping: 15, delay: 0.82 }}
                 style={{ transformOrigin: "510px 434px" }}
               />
@@ -332,7 +363,7 @@ export default function StoryHero() {
                   strokeWidth="5"
                   strokeLinecap="round"
                   initial={reduced ? false : { pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
+                  animate={show ? { pathLength: 1 } : undefined}
                   transition={{ duration: 1, delay: 1.1 + index * 0.08, ease }}
                 />
               ))}
@@ -345,7 +376,7 @@ export default function StoryHero() {
                 stroke="var(--navy)"
                 strokeWidth="4"
                 initial={reduced ? false : { scale: 0 }}
-                animate={{ scale: 1 }}
+                animate={show ? { scale: 1 } : undefined}
                 transition={{ type: "spring", stiffness: 180, damping: 12, delay: 1.2 }}
               />
             </svg>
@@ -355,6 +386,7 @@ export default function StoryHero() {
               delay={0.65}
               duration={4.8}
               reduced={reduced}
+              show={show}
               style={reduced ? undefined : { x: shapeX, y: shapeY }}
             >
               <div className={styles.browserCard}>
@@ -380,6 +412,7 @@ export default function StoryHero() {
               delay={0.85}
               duration={5.2}
               reduced={reduced}
+              show={show}
               style={reduced ? undefined : { x: shapeX, y: shapeY }}
             >
               <div className={styles.phoneCard}>
@@ -402,6 +435,7 @@ export default function StoryHero() {
               delay={1}
               duration={4.5}
               reduced={reduced}
+              show={show}
               style={reduced ? undefined : { x: shapeX, y: shapeY }}
             >
               <div className={styles.megaphoneCard}>
@@ -415,6 +449,7 @@ export default function StoryHero() {
               delay={1.15}
               duration={5}
               reduced={reduced}
+              show={show}
               style={reduced ? undefined : { x: shapeX, y: shapeY }}
             >
               <div className={styles.playCard}>
@@ -428,7 +463,7 @@ export default function StoryHero() {
               </div>
             </FloatShape>
           </motion.div>
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

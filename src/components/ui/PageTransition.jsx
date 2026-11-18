@@ -13,10 +13,10 @@ export default function PageTransition({ children }) {
       <motion.div
         key={location.pathname}
         className={styles.page}
-        initial={reduced ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: reduced ? 0 : 0.34, ease }}
+        initial={reduced ? false : { opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: reduced ? 0 : 0.46, ease }}
       >
         {children}
       </motion.div>

@@ -8,6 +8,22 @@ import styles from "./HomeCTA.module.css";
 
 const MotionLink = motion.create(Link);
 
+const stagger = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.08, delayChildren: 0.06 },
+  },
+};
+
+const rise = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
 export default function HomeCTA() {
   const reduced = useReducedMotion();
 
@@ -21,33 +37,68 @@ export default function HomeCTA() {
             <span />
           </div>
 
-          <div className={styles.copy}>
-            <span className={styles.eyebrow}>{home.cta.eyebrow}</span>
-            <h2>Let’s get you started.</h2>
-            <p>{home.cta.body}</p>
-            <div className={styles.contactLine}>
+          <motion.div
+            className={styles.copy}
+            variants={stagger}
+            initial={reduced ? false : "hidden"}
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+          >
+            <motion.span className={styles.eyebrow} variants={rise}>
+              {home.cta.eyebrow}
+            </motion.span>
+            <motion.h2 variants={rise}>Let’s get you started.</motion.h2>
+            <motion.p variants={rise}>{home.cta.body}</motion.p>
+            <motion.div className={styles.contactLine} variants={rise}>
               <a href={site.phoneHref}>
                 <Phone size={14} strokeWidth={2} />
                 {site.phoneDisplay}
               </a>
               <a href={site.emailHref}>{site.email}</a>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           <div className={styles.action}>
-            <span className={`${styles.tag} ${styles.tagOne}`}>Your business</span>
-            <span className={`${styles.tag} ${styles.tagTwo}`}>Your audience</span>
+            <motion.span
+              className={`${styles.tag} ${styles.tagOne}`}
+              initial={reduced ? false : { opacity: 0, y: -12, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Your business
+            </motion.span>
+            <motion.span
+              className={`${styles.tag} ${styles.tagTwo}`}
+              initial={reduced ? false : { opacity: 0, y: 12, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Your audience
+            </motion.span>
             <MotionLink
               to="/contact"
               className={styles.bigButton}
+              initial={reduced ? false : { opacity: 0, y: 22, scale: 0.86 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.4 }}
               whileHover={reduced ? undefined : { scale: 1.04, rotate: -2 }}
               whileTap={reduced ? undefined : { scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.16 }}
             >
               <span>Let’s talk</span>
               <ArrowUpRight size={24} strokeWidth={1.8} />
             </MotionLink>
-            <span className={styles.note}>Usually replies within one working day</span>
+            <motion.span
+              className={styles.note}
+              initial={reduced ? false : { opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Usually replies within one working day
+            </motion.span>
           </div>
         </div>
       </Container>
