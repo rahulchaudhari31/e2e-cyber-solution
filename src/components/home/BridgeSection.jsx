@@ -45,7 +45,7 @@ export default function BridgeSection() {
   const businessLabelsRef = useRef(null);
   const audienceLabelsRef = useRef(null);
   const reduced = useReducedMotion();
-  const { subscribeProgress, stopsRef, reduced: storyReduced } = useStory();
+  const { subscribeProgress, stopsRef, compact, reduced: storyReduced } = useStory();
   const still = reduced || storyReduced;
 
   useEffect(() => {
@@ -68,9 +68,11 @@ export default function BridgeSection() {
 
       gsap.set(line, { strokeDashoffset: length * (1 - local) });
 
-      const pull = Math.sin(local * Math.PI) * 18;
-      if (businessLabelsRef.current) gsap.set(businessLabelsRef.current, { x: pull });
-      if (audienceLabelsRef.current) gsap.set(audienceLabelsRef.current, { x: -pull });
+      if (!compact) {
+        const pull = Math.sin(local * Math.PI) * 18;
+        if (businessLabelsRef.current) gsap.set(businessLabelsRef.current, { x: pull });
+        if (audienceLabelsRef.current) gsap.set(audienceLabelsRef.current, { x: -pull });
+      }
 
       if (rollEggRef.current) {
         const point = line.getPointAtLength(length * local);
@@ -83,7 +85,7 @@ export default function BridgeSection() {
         });
       }
     });
-  }, [subscribeProgress, stopsRef, still]);
+  }, [subscribeProgress, stopsRef, compact, still]);
 
   return (
     <section
