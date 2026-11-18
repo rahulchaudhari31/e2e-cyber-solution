@@ -1,0 +1,64 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.thread {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.threadLine,
+.threadGlow {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.threadLine {
+  stroke: var(--yellow);
+  stroke-width: 2.6;
+  opacity: 0.88;
+}
+
+.threadGlow {
+  stroke: var(--yellow-2);
+  stroke-width: 11;
+  opacity: 0.16;
+}
+
+.traveler {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  display: block;
+  will-change: transform;
+  filter: drop-shadow(0 8px 12px rgba(11, 27, 58, 0.22));
+}
+
+@media (max-width: 899px) {
+  .overlay {
+    z-index: 5;
+  }
+
+  .threadLine {
+    stroke-width: 2.2;
+  }
+
+  .threadGlow {
+    stroke-width: 8;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .traveler {
+    will-change: auto;
+  }
+}

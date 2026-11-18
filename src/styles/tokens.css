@@ -59,6 +59,7 @@
   /* Typography */
   --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
   --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
 
   --text-xs: clamp(0.7rem, 0.67rem + 0.15vw, 0.76rem);
   --text-sm: clamp(0.82rem, 0.78rem + 0.2vw, 0.9rem);

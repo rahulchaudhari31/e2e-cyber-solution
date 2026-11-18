@@ -1,0 +1,11 @@
+.carton {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.dropEgg {
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
+}

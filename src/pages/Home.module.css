@@ -1,0 +1,4 @@
+.storyShell {
+  position: relative;
+  isolation: isolate;
+}

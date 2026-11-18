@@ -1,0 +1,24 @@
+.egg {
+  display: inline-block;
+  flex: none;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.chick {
+  display: inline-block;
+  flex: none;
+  transform-origin: 50% 70%;
+  will-change: transform, opacity;
+}
+
+.flock {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.15rem;
+}
+
+.flock > span {
+  display: inline-block;
+  will-change: transform, opacity;
+}
