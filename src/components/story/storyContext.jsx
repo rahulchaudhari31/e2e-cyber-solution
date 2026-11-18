@@ -4,9 +4,9 @@ import { usePageReady } from "../../hooks/usePageReady";
 import { STORY_CHAPTERS, StoryContext } from "./storyShared";
 
 export default function StoryProvider({ children }) {
-  const [stage, setStageState] = useState("laid");
+  const [stage, setStageState] = useState("idea");
   const [chapter, setChapterState] = useState(0);
-  const stageRef = useRef("laid");
+  const stageRef = useRef("idea");
   const chapterRef = useRef(0);
   const progressRef = useRef(0);
   const stopsRef = useRef([]);

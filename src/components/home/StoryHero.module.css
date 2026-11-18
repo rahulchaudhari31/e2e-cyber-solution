@@ -166,13 +166,13 @@
   opacity: 0.62;
 }
 
-.henStage {
+.hubStage {
   position: absolute;
-  right: -8%;
-  bottom: 2%;
+  right: -7%;
+  bottom: 4%;
   z-index: 3;
   width: 68%;
-  max-width: 430px;
+  max-width: 390px;
 }
 
 .shape {
@@ -471,10 +471,10 @@
     margin-inline: auto;
   }
 
-  .henStage {
-    right: -4%;
-    bottom: 0;
-    width: 72%;
+  .hubStage {
+    right: -2%;
+    bottom: 1%;
+    width: 74%;
   }
 }
 
@@ -552,9 +552,9 @@
     font-size: 9px;
   }
 
-  .henStage {
-    right: -8%;
-    width: 84%;
+  .hubStage {
+    right: -5%;
+    width: 86%;
   }
 }
 

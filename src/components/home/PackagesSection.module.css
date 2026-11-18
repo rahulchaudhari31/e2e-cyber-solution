@@ -30,19 +30,19 @@
   background: linear-gradient(120deg, rgba(255, 201, 60, 0.12), rgba(255, 248, 231, 0));
 }
 
-.cartonWrap {
+.roadmapWrap {
   position: relative;
-  width: min(32vw, 300px);
+  width: min(38vw, 340px);
   flex: none;
 }
 
-.cartonNote {
+.roadmapNote {
   position: absolute;
   left: 62%;
   top: -12%;
 }
 
-.shellPicker {
+.focusPicker {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -50,7 +50,7 @@
   gap: 12px;
 }
 
-.shellPicker > span {
+.focusPicker > span {
   color: var(--muted);
   font-size: 9px;
   font-weight: var(--weight-semibold);
@@ -58,7 +58,7 @@
   text-transform: uppercase;
 }
 
-.shellTabs {
+.focusTabs {
   flex: none;
 }
 
@@ -250,8 +250,8 @@
     flex-direction: column;
   }
 
-  .cartonWrap {
-    width: min(64vw, 260px);
+  .roadmapWrap {
+    width: min(84vw, 340px);
     align-self: center;
   }
 
@@ -262,7 +262,7 @@
 }
 
 @media (max-width: 560px) {
-  .cartonNote {
+  .roadmapNote {
     left: 54%;
     top: -16%;
   }

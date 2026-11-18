@@ -20,7 +20,7 @@ import Button from "../ui/Button";
 import Container from "../ui/Container";
 import styles from "./StoryHero.module.css";
 
-const Hen = lazy(() => import("../story/Hen"));
+const ProjectHub = lazy(() => import("../story/ProjectHub"));
 
 const ease = [0.16, 1, 0.3, 1];
 const headline = "The missing link between your business and your audience";
@@ -410,8 +410,8 @@ export default function StoryHero() {
             </svg>
 
             <Suspense fallback={null}>
-              <div className={styles.henStage}>
-                <Hen />
+              <div className={styles.hubStage}>
+                <ProjectHub />
               </div>
             </Suspense>
 

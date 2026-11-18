@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-export const STORY_CHAPTERS = ["candling", "painted", "incubating", "hatched"];
+export const STORY_CHAPTERS = ["discover", "design", "develop", "grow"];
 
 export const StoryContext = createContext(null);
 

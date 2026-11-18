@@ -222,7 +222,7 @@
   stroke-width: 2.5;
 }
 
-.rollEgg {
+.routeMarker {
   opacity: 0;
   will-change: transform, opacity;
 }

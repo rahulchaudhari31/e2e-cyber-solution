@@ -41,7 +41,7 @@ export default function BridgeSection() {
   const sectionRef = useRef(null);
   const bridgeRef = useRef(null);
   const lineRef = useRef(null);
-  const rollEggRef = useRef(null);
+  const routeMarkerRef = useRef(null);
   const businessLabelsRef = useRef(null);
   const audienceLabelsRef = useRef(null);
   const reduced = useReducedMotion();
@@ -74,9 +74,9 @@ export default function BridgeSection() {
         if (audienceLabelsRef.current) gsap.set(audienceLabelsRef.current, { x: -pull });
       }
 
-      if (rollEggRef.current) {
+      if (routeMarkerRef.current) {
         const point = line.getPointAtLength(length * local);
-        gsap.set(rollEggRef.current, {
+        gsap.set(routeMarkerRef.current, {
           x: point.x,
           y: point.y,
           rotation: local * 320,
@@ -148,9 +148,9 @@ export default function BridgeSection() {
                 className={styles.linkPath}
                 d="M0 30 C72 0 188 60 260 30"
               />
-              <g ref={rollEggRef} className={styles.rollEgg}>
-                <ellipse cx="0" cy="0" rx="8" ry="11" fill="var(--cream-2)" stroke="var(--navy)" strokeWidth="2" />
-                <ellipse cx="-3" cy="-3" rx="2" ry="4" fill="#fff" fillOpacity="0.7" />
+              <g ref={routeMarkerRef} className={styles.routeMarker}>
+                <rect x="-11" y="-11" width="22" height="22" rx="7" fill="var(--blue)" stroke="var(--navy)" strokeWidth="2" />
+                <path d="M-4 4 L4 -4 M-1 -4 H4 V1" fill="none" stroke="var(--cream-2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </g>
             </svg>
             <motion.span

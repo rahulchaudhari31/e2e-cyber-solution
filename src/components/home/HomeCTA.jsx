@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Phone } from "lucide-react";
+import { ArrowUpRight, Phone, Rocket } from "lucide-react";
 import { home, site } from "../../data/content";
-import { Chick } from "../story/Egg";
 import { useStory } from "../story/storyShared";
 import Container from "../ui/Container";
 import GradientBlobs from "../ui/GradientBlobs";
@@ -85,15 +84,21 @@ export default function HomeCTA() {
             <AnimatePresence>
               {launch ? (
                 <motion.div
-                  className={styles.hatchCrew}
+                  className={styles.launchCrew}
                   initial={still ? false : { opacity: 0, y: 14, scale: 0.7 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={still ? undefined : { opacity: 0, y: -8, scale: 0.9 }}
                   transition={{ type: "spring", stiffness: 240, damping: 17, delay: still ? 0 : 0.22 }}
                 >
-                  <Chick size={54} crow={!still} />
                   <motion.span
-                    className={styles.crow}
+                    className={styles.launchIcon}
+                    animate={still ? undefined : { rotate: [-6, 6, -6], y: [0, -3, 0] }}
+                    transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <Rocket size={28} strokeWidth={1.8} />
+                  </motion.span>
+                  <motion.span
+                    className={styles.launchNote}
                     initial={still ? false : { opacity: 0, scale: 0.7, rotate: -8 }}
                     animate={{ opacity: 1, scale: 1, rotate: -4 }}
                     transition={{ type: "spring", stiffness: 260, damping: 16, delay: still ? 0 : 0.42 }}

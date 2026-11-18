@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
-import Egg, { Chick } from "./Egg";
+import WorkflowToken from "./WorkflowToken";
 import styles from "./StoryThread.module.css";
 import { STORY_CHAPTERS, useStory } from "./storyShared";
 
@@ -10,19 +10,6 @@ gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 const ANCHOR_NAMES = ["hero", "bridge", "packages", "process", "stats", "cta"];
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
-
-function shellForStage(stage) {
-  if (stage === "candling") return "white";
-  if (["painted", "incubating", "hatched", "cracked", "proof", "launch"].includes(stage)) return "brand";
-  return "brown";
-}
-
-function stateForStage(stage) {
-  if (stage === "candling") return "glow";
-  if (stage === "painted") return "painted";
-  if (stage === "incubating") return "incubating";
-  return "whole";
-}
 
 function smoothPath(points, compact) {
   if (points.length < 2) return "";
@@ -122,12 +109,12 @@ function measure(wrapper, compact) {
 }
 
 function stageAt(progress, stops, chapterRef) {
-  if (progress < stops[0]) return "laid";
-  if (progress < stops[1]) return "rolling";
-  if (progress < stops[2]) return "boxed";
-  if (progress < stops[3]) return "candling";
+  if (progress < stops[0]) return "idea";
+  if (progress < stops[1]) return "strategy";
+  if (progress < stops[2]) return "scope";
+  if (progress < stops[3]) return "discover";
   if (progress < stops[4]) {
-    return STORY_CHAPTERS[chapterRef.current] || "candling";
+    return STORY_CHAPTERS[chapterRef.current] || "discover";
   }
   if (progress < stops[5]) return "proof";
   return "launch";
@@ -138,7 +125,7 @@ export default function StoryThread() {
   const svgRef = useRef(null);
   const pathRef = useRef(null);
   const glowRef = useRef(null);
-  const eggRef = useRef(null);
+  const tokenRef = useRef(null);
   const contextRef = useRef(null);
   const rebuildingRef = useRef(false);
   const { stage, setStage, publishProgress, chapterRef, stopsRef, reduced, compact } = useStory();
@@ -147,9 +134,9 @@ export default function StoryThread() {
     const wrapper = overlayRef.current?.parentElement;
     const path = pathRef.current;
     const glow = glowRef.current;
-    const egg = eggRef.current;
+    const token = tokenRef.current;
 
-    if (!wrapper || !path || !glow || !egg) return undefined;
+    if (!wrapper || !path || !glow || !token) return undefined;
 
     let disposed = false;
     let refreshFrame = 0;
@@ -208,9 +195,9 @@ export default function StoryThread() {
         return 1;
       };
 
-      const placeEgg = (progress, wobble = 0) => {
+      const placeToken = (progress, wobble = 0) => {
         const position = positionAt(progress);
-        gsap.set(egg, {
+        gsap.set(token, {
           x: position.x,
           y: position.y,
           xPercent: -50,
@@ -228,7 +215,7 @@ export default function StoryThread() {
       const context = gsap.context(() => {
         if (reduced) {
           drawThread(1);
-          placeEgg(1);
+          placeToken(1);
           publishProgress(1);
           setStage("launch");
           return;
@@ -243,7 +230,7 @@ export default function StoryThread() {
             const progress = clamp(driver.progress);
             const pathProgress = journeyToPath(progress);
             drawThread(pathProgress);
-            placeEgg(pathProgress, Math.sin(progress * Math.PI * 14) * 6);
+            placeToken(pathProgress, Math.sin(progress * Math.PI * 14) * 4);
             publishProgress(progress);
             setStage(stageAt(progress, data.stops, chapterRef));
           },
@@ -301,25 +288,14 @@ export default function StoryThread() {
     };
   }, [compact, reduced, chapterRef, stopsRef, publishProgress, setStage]);
 
-  const hatchling = ["hatched", "cracked", "proof", "launch"].includes(stage);
-  const eggSize = compact ? 30 : 42;
-
   return (
     <div className={styles.overlay} ref={overlayRef} aria-hidden="true">
       <svg className={styles.thread} ref={svgRef} preserveAspectRatio="none" role="presentation">
         <path ref={glowRef} className={styles.threadGlow} />
         <path ref={pathRef} className={styles.threadLine} />
       </svg>
-      <div className={styles.traveler} ref={eggRef}>
-        {hatchling ? (
-          <Chick size={eggSize} crow={stage === "launch"} />
-        ) : (
-          <Egg
-            size={eggSize}
-            shell={shellForStage(stage)}
-            state={stateForStage(stage)}
-          />
-        )}
+      <div className={styles.traveler} ref={tokenRef}>
+        <WorkflowToken stage={stage} compact={compact} reduced={reduced} />
       </div>
     </div>
   );

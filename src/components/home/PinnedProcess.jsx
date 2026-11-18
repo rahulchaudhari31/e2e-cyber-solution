@@ -206,7 +206,7 @@ export default function PinnedProcess() {
                 <Suspense fallback={null}>
                   <HandNote
                     className={styles.processNote}
-                    text="Getting warmer…"
+                    text="Plan in motion…"
                     tone="cream"
                     arrow="down-right"
                     rotate={-5}

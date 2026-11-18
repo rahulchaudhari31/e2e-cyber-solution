@@ -1,25 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  ChartNoAxesCombined,
+  CodeXml,
+  Palette,
+  Rocket,
+  Sparkles,
+  Target,
+  TrendingUp,
+} from "lucide-react";
 import useCounter from "../../hooks/useCounter";
 import { stats } from "../../data/content";
 import Container from "../ui/Container";
 import GradientBlobs from "../ui/GradientBlobs";
 import SectionHeading from "../ui/SectionHeading";
-import Egg, { Chick } from "../story/Egg";
 import { useStory } from "../story/storyShared";
 import styles from "./StatsSection.module.css";
 
 const ease = [0.16, 1, 0.3, 1];
 const confetti = [
-  { x: -120, y: -68, rotate: -18, type: "chick" },
-  { x: -78, y: 42, rotate: 12, type: "egg" },
-  { x: -30, y: -96, rotate: 24, type: "egg" },
-  { x: 22, y: 58, rotate: -12, type: "chick" },
-  { x: 68, y: -74, rotate: 16, type: "egg" },
-  { x: 116, y: 34, rotate: -24, type: "chick" },
-  { x: 150, y: -38, rotate: 28, type: "egg" },
-  { x: -156, y: 6, rotate: -8, type: "egg" },
+  { x: -120, y: -68, rotate: -18, Icon: Rocket },
+  { x: -78, y: 42, rotate: 12, Icon: CodeXml },
+  { x: -30, y: -96, rotate: 24, Icon: Palette },
+  { x: 22, y: 58, rotate: -12, Icon: Target },
+  { x: 68, y: -74, rotate: 16, Icon: TrendingUp },
+  { x: 116, y: 34, rotate: -24, Icon: ChartNoAxesCombined },
+  { x: 150, y: -38, rotate: 28, Icon: Sparkles },
+  { x: -156, y: 6, rotate: -8, Icon: Rocket },
 ];
 
 function StatValue({ value, reduced, enabled }) {
@@ -141,11 +149,7 @@ export default function StatsSection() {
                 }}
                 transition={{ duration: 1.8, delay: index * 0.045, ease: "easeOut" }}
               >
-                {piece.type === "chick" ? (
-                  <Chick size={26 + (index % 3) * 4} />
-                ) : (
-                  <Egg size={22 + (index % 3) * 3} shell="brand" state="painted" />
-                )}
+                <piece.Icon size={26 + (index % 3) * 4} strokeWidth={1.7} />
               </motion.span>
             ))}
           </motion.div>

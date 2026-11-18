@@ -10,7 +10,7 @@ import PillTabs from "../ui/PillTabs";
 import SectionHeading from "../ui/SectionHeading";
 import styles from "./PackagesSection.module.css";
 
-const Carton = lazy(() => import("../story/Carton"));
+const RoadmapBoard = lazy(() => import("../story/RoadmapBoard"));
 const HandNote = lazy(() => import("../story/HandNote"));
 
 const ease = [0.16, 1, 0.3, 1];
@@ -34,9 +34,9 @@ const groups = [
   },
 ];
 
-const shellItems = [
-  { label: "Brown", value: "brown" },
-  { label: "White", value: "white" },
+const focusItems = [
+  { label: "Website", value: "website" },
+  { label: "Campaign", value: "campaign" },
   { label: "Brand", value: "brand" },
 ];
 
@@ -103,7 +103,7 @@ function PackageCard({ service, index, reduced }) {
 
 export default function PackagesSection() {
   const [active, setActive] = useState("design");
-  const [shell, setShell] = useState("brown");
+  const [focus, setFocus] = useState("website");
   const reduced = useReducedMotion();
   const activeGroup = groups.find((group) => group.id === active) ?? groups[0];
   const activeServices = activeGroup.slugs
@@ -131,28 +131,28 @@ export default function PackagesSection() {
 
         <Suspense fallback={null}>
           <div className={styles.storyPanel}>
-            <div className={styles.cartonWrap}>
-              <Carton shell={shell} />
+            <div className={styles.roadmapWrap}>
+              <RoadmapBoard focus={focus} />
               <HandNote
-                className={styles.cartonNote}
-                text="Three ways in. One way forward."
+                className={styles.roadmapNote}
+                text="One plan. Built to move."
                 tone="cream"
                 arrow="down-right"
                 rotate={-4}
               />
             </div>
-            <div className={styles.shellPicker}>
-              <span>Pick your shell</span>
+            <div className={styles.focusPicker}>
+              <span>Set the project focus</span>
               <PillTabs
-                items={shellItems}
-                value={shell}
-                onChange={setShell}
-                ariaLabel="Egg shell style"
-                className={styles.shellTabs}
+                items={focusItems}
+                value={focus}
+                onChange={setFocus}
+                ariaLabel="Project focus"
+                className={styles.focusTabs}
               />
               <HandNote
                 className={styles.pickerNote}
-                text="Match it to your brand."
+                text="We shape the route with you."
                 tone="yellow"
                 arrow="up-right"
                 rotate={3}
