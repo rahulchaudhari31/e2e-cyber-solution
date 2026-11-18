@@ -92,8 +92,12 @@ function measure(wrapper, compact) {
   });
 
   let previousStop = 0;
-  const stops = anchors.map(({ rect }) => {
-    const center = rect.top + scrollTop + rect.height * 0.42 - viewport * 0.42;
+  const stops = anchors.map(({ name, node, rect }) => {
+    const pinSpacer = name === "process" ? node.querySelector(".pin-spacer") : null;
+    const pinTarget = pinSpacer || (name === "process" ? node.querySelector("#process-pin") : null);
+    const center = pinTarget
+      ? pinTarget.getBoundingClientRect().top + scrollTop
+      : rect.top + scrollTop + rect.height * 0.42 - viewport * 0.42;
     const stop = clamp((center - wrapperTop) / span, previousStop + 0.01, 1);
     previousStop = stop;
     return stop;
