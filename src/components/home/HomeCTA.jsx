@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Phone, Rocket } from "lucide-react";
 import { home, site } from "../../data/content";
-import { useStory } from "../story/storyShared";
+import { useOptionalStory } from "../story/storyShared";
 import Container from "../ui/Container";
 import GradientBlobs from "../ui/GradientBlobs";
 import styles from "./HomeCTA.module.css";
@@ -27,9 +27,9 @@ const rise = {
 
 export default function HomeCTA() {
   const reduced = useReducedMotion();
-  const { stage, reduced: storyReduced } = useStory();
-  const still = reduced || storyReduced;
-  const launch = still || stage === "launch";
+  const story = useOptionalStory();
+  const still = reduced || story?.reduced;
+  const launch = Boolean(story) && (still || story.stage === "launch");
 
   return (
     <section className={styles.section} data-story-anchor="cta">

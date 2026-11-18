@@ -13,3 +13,7 @@ export function useStory() {
 
   return context;
 }
+
+export function useOptionalStory() {
+  return useContext(StoryContext);
+}
