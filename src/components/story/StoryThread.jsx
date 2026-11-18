@@ -137,7 +137,7 @@ export default function StoryThread() {
   const eggRef = useRef(null);
   const contextRef = useRef(null);
   const rebuildingRef = useRef(false);
-  const { stage, setStage, publishProgress, chapterRef, reduced, compact } = useStory();
+  const { stage, setStage, publishProgress, chapterRef, stopsRef, reduced, compact } = useStory();
 
   useEffect(() => {
     const wrapper = overlayRef.current?.parentElement;
@@ -165,6 +165,7 @@ export default function StoryThread() {
         return;
       }
 
+      stopsRef.current = data.stops;
       path.setAttribute("d", data.d);
       glow.setAttribute("d", data.d);
 
@@ -294,7 +295,7 @@ export default function StoryThread() {
       contextRef.current?.revert();
       contextRef.current = null;
     };
-  }, [compact, reduced, chapterRef, publishProgress, setStage]);
+  }, [compact, reduced, chapterRef, stopsRef, publishProgress, setStage]);
 
   const hatchling = ["hatched", "cracked", "proof", "launch"].includes(stage);
   const eggSize = compact ? 30 : 42;

@@ -1,17 +1,16 @@
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap from "gsap";
 import { about, home } from "../../data/content";
 import Button from "../ui/Button";
 import Container from "../ui/Container";
 import SectionHeading from "../ui/SectionHeading";
+import { useStory } from "../story/storyShared";
 import styles from "./BridgeSection.module.css";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const businessLabels = home.hero.badges;
 const audienceLabels = home.marquee.slice(4, 8);
+const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 
 function FloatingLabel({ label, className, delay, reduced }) {
   return (
@@ -42,42 +41,56 @@ export default function BridgeSection() {
   const sectionRef = useRef(null);
   const bridgeRef = useRef(null);
   const lineRef = useRef(null);
+  const rollEggRef = useRef(null);
+  const businessLabelsRef = useRef(null);
+  const audienceLabelsRef = useRef(null);
   const reduced = useReducedMotion();
+  const { subscribeProgress, stopsRef, reduced: storyReduced } = useStory();
+  const still = reduced || storyReduced;
 
   useEffect(() => {
     const line = lineRef.current;
     if (!line) return undefined;
 
     const length = line.getTotalLength();
-    gsap.set(line, {
-      strokeDasharray: length,
-      strokeDashoffset: reduced ? 0 : length,
+    gsap.set(line, { strokeDasharray: length, strokeDashoffset: still ? 0 : length });
+
+    return subscribeProgress((progress) => {
+      const stops = stopsRef.current;
+      const from = stops.length > 1 ? stops[0] : 0.08;
+      const to = stops.length > 1 ? stops[1] : 0.32;
+      const local = clamp((progress - from) / Math.max(0.001, to - from));
+
+      if (still) {
+        gsap.set(line, { strokeDashoffset: 0 });
+        return;
+      }
+
+      gsap.set(line, { strokeDashoffset: length * (1 - local) });
+
+      const pull = Math.sin(local * Math.PI) * 18;
+      if (businessLabelsRef.current) gsap.set(businessLabelsRef.current, { x: pull });
+      if (audienceLabelsRef.current) gsap.set(audienceLabelsRef.current, { x: -pull });
+
+      if (rollEggRef.current) {
+        const point = line.getPointAtLength(length * local);
+        gsap.set(rollEggRef.current, {
+          x: point.x,
+          y: point.y,
+          rotation: local * 320,
+          opacity: local > 0 && local < 1 ? 1 : 0,
+          transformOrigin: "50% 50%",
+        });
+      }
     });
-
-    if (reduced) return undefined;
-
-    const tween = gsap.to(line, {
-      strokeDashoffset: 0,
-      ease: "none",
-      scrollTrigger: {
-        trigger: bridgeRef.current,
-        start: "top 78%",
-        end: "bottom 62%",
-        scrub: 0.6,
-      },
-    });
-
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-    };
-  }, [reduced]);
+  }, [subscribeProgress, stopsRef, still]);
 
   return (
     <section
       id="two-sides"
       ref={sectionRef}
       className={styles.section}
+      data-story-anchor="bridge"
       aria-label="Two sides, one bridge"
     >
       <div className={styles.rings} aria-hidden="true">
@@ -101,7 +114,7 @@ export default function BridgeSection() {
           <div className={styles.side}>
             <motion.div
               className={`${styles.circle} ${styles.businessCircle}`}
-              initial={reduced ? false : { opacity: 0, scale: 0.86, rotate: -3 }}
+              initial={still ? false : { opacity: 0, scale: 0.86, rotate: -3 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true, amount: 0.35 }}
               transition={{ type: "spring", stiffness: 130, damping: 17 }}
@@ -111,16 +124,18 @@ export default function BridgeSection() {
               <p>Your goals, your offer, and what makes you impossible to ignore.</p>
             </motion.div>
 
-            <div className={styles.labels}>
-              {businessLabels.map((label, index) => (
-                <FloatingLabel
-                  key={label}
-                  label={label}
-                  className={styles[`labelB${index}`]}
-                  delay={index * 0.08}
-                  reduced={reduced}
-                />
-              ))}
+            <div className={styles.labelField} ref={businessLabelsRef}>
+              <div className={styles.labels}>
+                {businessLabels.map((label, index) => (
+                  <FloatingLabel
+                    key={label}
+                    label={label}
+                    className={styles[`labelB${index}`]}
+                    delay={index * 0.08}
+                    reduced={still}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
@@ -131,17 +146,21 @@ export default function BridgeSection() {
                 className={styles.linkPath}
                 d="M0 30 C72 0 188 60 260 30"
               />
+              <g ref={rollEggRef} className={styles.rollEgg}>
+                <ellipse cx="0" cy="0" rx="8" ry="11" fill="var(--cream-2)" stroke="var(--navy)" strokeWidth="2" />
+                <ellipse cx="-3" cy="-3" rx="2" ry="4" fill="#fff" fillOpacity="0.7" />
+              </g>
             </svg>
             <motion.span
               className={styles.ampOuter}
-              initial={reduced ? false : { opacity: 0, scale: 0.45, rotate: -18 }}
+              initial={still ? false : { opacity: 0, scale: 0.45, rotate: -18 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true, amount: 0.5 }}
               transition={{ type: "spring", stiffness: 210, damping: 14, delay: 0.18 }}
             >
               <motion.span
                 className={styles.amp}
-                animate={reduced ? undefined : { rotate: [-4, 4, -4] }}
+                animate={still ? undefined : { rotate: [-4, 4, -4] }}
                 transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
               >
                 &amp;
@@ -152,7 +171,7 @@ export default function BridgeSection() {
           <div className={styles.side}>
             <motion.div
               className={`${styles.circle} ${styles.audienceCircle}`}
-              initial={reduced ? false : { opacity: 0, scale: 0.86, rotate: 3 }}
+              initial={still ? false : { opacity: 0, scale: 0.86, rotate: 3 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true, amount: 0.35 }}
               transition={{ type: "spring", stiffness: 130, damping: 17, delay: 0.1 }}
@@ -162,23 +181,25 @@ export default function BridgeSection() {
               <p>The people you need to reach, engage, convert and keep coming back.</p>
             </motion.div>
 
-            <div className={styles.labels}>
-              {audienceLabels.map((label, index) => (
-                <FloatingLabel
-                  key={label}
-                  label={label}
-                  className={styles[`labelA${index}`]}
-                  delay={0.2 + index * 0.08}
-                  reduced={reduced}
-                />
-              ))}
+            <div className={styles.labelField} ref={audienceLabelsRef}>
+              <div className={styles.labels}>
+                {audienceLabels.map((label, index) => (
+                  <FloatingLabel
+                    key={label}
+                    label={label}
+                    className={styles[`labelA${index}`]}
+                    delay={0.2 + index * 0.08}
+                    reduced={still}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
         <motion.div
           className={styles.foot}
-          initial={reduced ? false : { opacity: 0, y: 20 }}
+          initial={still ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}

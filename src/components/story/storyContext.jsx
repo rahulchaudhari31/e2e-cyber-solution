@@ -9,6 +9,7 @@ export default function StoryProvider({ children }) {
   const stageRef = useRef("laid");
   const chapterRef = useRef(0);
   const progressRef = useRef(0);
+  const stopsRef = useRef([]);
   const progressListeners = useRef(new Set());
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const compact = useMediaQuery("(max-width: 899px)");
@@ -50,6 +51,7 @@ export default function StoryProvider({ children }) {
       chapterRef,
       setChapter,
       progressRef,
+      stopsRef,
       publishProgress,
       subscribeProgress,
       reduced,

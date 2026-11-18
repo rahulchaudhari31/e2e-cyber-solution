@@ -17,7 +17,7 @@ export default function Carton({
   end = 0.53,
   className = "",
 }) {
-  const { subscribeProgress, reduced } = useStory();
+  const { subscribeProgress, reduced, stopsRef } = useStory();
   const rawId = useId();
   const id = rawId.replace(/:/g, "");
   const eggRefs = useRef([]);
@@ -35,7 +35,10 @@ export default function Carton({
     );
 
     const update = (progress) => {
-      const local = reduced ? 1 : clamp((progress - start) / (end - start), 0, 1);
+      const stops = stopsRef.current;
+      const from = stops.length > 3 ? stops[2] : start;
+      const to = stops.length > 3 ? stops[3] : end;
+      const local = reduced ? 1 : clamp((progress - from) / Math.max(0.001, to - from), 0, 1);
 
       setters.forEach((setter, index) => {
         if (!setter) return;
@@ -49,7 +52,7 @@ export default function Carton({
     };
 
     return subscribeProgress(update);
-  }, [subscribeProgress, reduced, start, end]);
+  }, [subscribeProgress, reduced, stopsRef, start, end]);
 
   return (
     <svg

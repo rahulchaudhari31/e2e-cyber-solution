@@ -17,6 +17,56 @@
   margin-bottom: 4px;
 }
 
+.storyPanel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(20px, 4vw, 64px);
+  margin-bottom: clamp(28px, 4vw, 48px);
+  padding: clamp(18px, 2.6vw, 30px);
+  border: 1px dashed rgba(11, 27, 58, 0.2);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, rgba(255, 201, 60, 0.12), rgba(255, 248, 231, 0));
+}
+
+.cartonWrap {
+  position: relative;
+  width: min(32vw, 300px);
+  flex: none;
+}
+
+.cartonNote {
+  position: absolute;
+  left: 62%;
+  top: -12%;
+}
+
+.shellPicker {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.shellPicker > span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.shellTabs {
+  flex: none;
+}
+
+.pickerNote {
+  align-self: flex-end;
+  margin-right: 8%;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(255px, 100%), 1fr));
@@ -48,6 +98,14 @@
 .card:hover {
   border-color: rgba(47, 107, 255, 0.42);
   box-shadow: var(--shadow-md);
+}
+
+.tiltSurface {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .imageWrap {
@@ -186,9 +244,29 @@
   .tabs {
     margin-bottom: 0;
   }
+
+  .storyPanel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cartonWrap {
+    width: min(64vw, 260px);
+    align-self: center;
+  }
+
+  .pickerNote {
+    align-self: center;
+    margin-right: 0;
+  }
 }
 
 @media (max-width: 560px) {
+  .cartonNote {
+    left: 54%;
+    top: -16%;
+  }
+
   .footer {
     align-items: flex-start;
     flex-direction: column;

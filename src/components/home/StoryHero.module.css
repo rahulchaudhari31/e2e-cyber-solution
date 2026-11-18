@@ -94,6 +94,23 @@
   color: var(--blue);
 }
 
+.accentWrap {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
+.highlight {
+  position: absolute;
+  left: -2%;
+  bottom: -0.16em;
+  z-index: -1;
+  width: 104%;
+  height: 0.34em;
+  overflow: visible;
+  pointer-events: none;
+}
+
 .support {
   max-width: 540px;
   color: var(--muted);
@@ -146,11 +163,22 @@
   width: 100%;
   height: 100%;
   overflow: visible;
+  opacity: 0.62;
+}
+
+.henStage {
+  position: absolute;
+  right: -8%;
+  bottom: 2%;
+  z-index: 3;
+  width: 68%;
+  max-width: 430px;
 }
 
 .shape {
   position: absolute;
   z-index: 2;
+  opacity: 0.76;
   will-change: transform;
 }
 
@@ -442,6 +470,12 @@
     width: min(100%, 560px);
     margin-inline: auto;
   }
+
+  .henStage {
+    right: -4%;
+    bottom: 0;
+    width: 72%;
+  }
 }
 
 @media (max-width: 640px) {
@@ -516,6 +550,11 @@
 
   .playCard strong {
     font-size: 9px;
+  }
+
+  .henStage {
+    right: -8%;
+    width: 84%;
   }
 }
 

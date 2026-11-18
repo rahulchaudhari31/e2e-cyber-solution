@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { lazy, Suspense, useRef } from "react";
 import {
   motion,
   useMotionValue,
@@ -19,6 +19,8 @@ import { usePageReady } from "../../hooks/usePageReady";
 import Button from "../ui/Button";
 import Container from "../ui/Container";
 import styles from "./StoryHero.module.css";
+
+const Hen = lazy(() => import("../story/Hen"));
 
 const ease = [0.16, 1, 0.3, 1];
 const headline = "The missing link between your business and your audience";
@@ -133,6 +135,7 @@ export default function StoryHero() {
     <section
       ref={heroRef}
       className={styles.section}
+      data-story-anchor="hero"
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
     >
@@ -165,23 +168,48 @@ export default function StoryHero() {
               initial={reduced ? false : "hidden"}
               animate={show ? "show" : "hidden"}
             >
-              {words.map((word, index) => (
-                <span
-                  className={styles.wordMask}
-                  key={`${word}-${index}`}
-                  aria-hidden="true"
-                >
-                  <motion.span
-                    className={`${styles.word} ${
-                      accentWords.has(word) ? styles.accentWord : ""
-                    }`}
-                    variants={reduced ? undefined : wordReveal}
+              {words.map((word, index) => {
+                const accent = accentWords.has(word);
+
+                return (
+                  <span
+                    className={styles.wordMask}
+                    key={`${word}-${index}`}
+                    aria-hidden="true"
                   >
-                    {word}
-                    {index < words.length - 1 ? "\u00A0" : ""}
-                  </motion.span>
-                </span>
-              ))}
+                    <motion.span
+                      className={`${styles.word} ${accent ? styles.accentWord : ""}`}
+                      variants={reduced ? undefined : wordReveal}
+                    >
+                      {accent ? (
+                        <span className={styles.accentWrap}>
+                          {word}
+                          <motion.svg
+                            className={styles.highlight}
+                            viewBox="0 0 100 18"
+                            preserveAspectRatio="none"
+                            aria-hidden="true"
+                            initial={reduced ? false : { pathLength: 0, opacity: 0 }}
+                            animate={show ? { pathLength: 1, opacity: 1 } : undefined}
+                            transition={{ duration: 0.7, delay: 0.5 + index * 0.062, ease }}
+                          >
+                            <motion.path
+                              d="M3 12 C24 4 70 3 97 9"
+                              fill="none"
+                              stroke="var(--yellow)"
+                              strokeWidth="7"
+                              strokeLinecap="round"
+                            />
+                          </motion.svg>
+                        </span>
+                      ) : (
+                        word
+                      )}
+                      {index < words.length - 1 ? "\u00A0" : ""}
+                    </motion.span>
+                  </span>
+                );
+              })}
             </motion.span>
           </h1>
 
@@ -380,6 +408,12 @@ export default function StoryHero() {
                 transition={{ type: "spring", stiffness: 180, damping: 12, delay: 1.2 }}
               />
             </svg>
+
+            <Suspense fallback={null}>
+              <div className={styles.henStage}>
+                <Hen />
+              </div>
+            </Suspense>
 
             <FloatShape
               className={styles.browserShape}
