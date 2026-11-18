@@ -239,7 +239,9 @@
 
 .chromeCount {
   flex: none;
+  min-width: 44px;
   color: var(--yellow);
+  text-align: right;
 }
 
 .mediaBottom {
@@ -314,6 +316,13 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   opacity: 0.65;
+}
+
+.processNote {
+  position: absolute;
+  z-index: 4;
+  top: 16%;
+  left: 12%;
 }
 
 .dots {

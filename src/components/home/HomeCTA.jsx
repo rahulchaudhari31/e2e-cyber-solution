@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Phone } from "lucide-react";
 import { home, site } from "../../data/content";
+import { Chick } from "../story/Egg";
+import { useStory } from "../story/storyShared";
 import Container from "../ui/Container";
 import GradientBlobs from "../ui/GradientBlobs";
 import styles from "./HomeCTA.module.css";
@@ -26,11 +28,14 @@ const rise = {
 
 export default function HomeCTA() {
   const reduced = useReducedMotion();
+  const { stage, reduced: storyReduced } = useStory();
+  const still = reduced || storyReduced;
+  const launch = still || stage === "launch";
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} data-story-anchor="cta">
       <Container>
-        <div className={styles.banner}>
+        <div className={`${styles.banner} ${launch ? styles.launching : ""}`.trim()}>
           <GradientBlobs />
           <div className={styles.rings} aria-hidden="true">
             <span />
@@ -77,6 +82,28 @@ export default function HomeCTA() {
             >
               Your audience
             </motion.span>
+            <AnimatePresence>
+              {launch ? (
+                <motion.div
+                  className={styles.hatchCrew}
+                  initial={still ? false : { opacity: 0, y: 14, scale: 0.7 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={still ? undefined : { opacity: 0, y: -8, scale: 0.9 }}
+                  transition={{ type: "spring", stiffness: 240, damping: 17, delay: still ? 0 : 0.22 }}
+                >
+                  <Chick size={54} crow={!still} />
+                  <motion.span
+                    className={styles.crow}
+                    initial={still ? false : { opacity: 0, scale: 0.7, rotate: -8 }}
+                    animate={{ opacity: 1, scale: 1, rotate: -4 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 16, delay: still ? 0 : 0.42 }}
+                  >
+                    Let&apos;s launch
+                  </motion.span>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+
             <MotionLink
               to="/contact"
               className={styles.bigButton}
